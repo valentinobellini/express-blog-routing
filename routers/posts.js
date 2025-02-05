@@ -7,16 +7,23 @@ const posts = require('../data/posts');
 // rotte di CRUD dei posts
 // index
 router.get('/', function (req, res) {
-
+    
     res.json(posts);
 });
 
 
 // show
 router.get('/:id', function (req, res) {
+    // Converti id in numero
+    const postId = parseInt(req.params.id); 
+    // Trova il post corrispondente
+    const post = posts.find(p => p.id === postId); 
 
+    if (!post) {
+        return res.status(404).json({ error: 'Post non trovato' });
+    }
 
-    res.send('Dettagli del post ' + req.params.id);
+    res.json(post);
 });
 
 
